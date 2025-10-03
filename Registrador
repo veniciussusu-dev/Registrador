@@ -14,12 +14,12 @@ adress : in std_logic_vector(7 downto 0);
 q0 : in std_logic_vector(7 downto 0);
 q1 : in std_logic_vector(7 downto 0);
 q2 : in std_logic_vector(7 downto 0);
-q3 : in std_logic_vector(7 downto 0);
+q3 : in std_logic_vector(7 downto 0)
 );
 
 
 
-end Registrador
+end Registrador;
 
 
 ARCHITECTURE reg of registrador is
@@ -31,27 +31,31 @@ signal regs : reg_array := (others => ( others => '0'));
 
 begin
 
-process(clk)
+process(clk, reset)
+begin
 
 if rising_edge(clk) then
-	if rst='1' then
+	if reset='1' then
     	regs <= (others => (others => '0'));
         
-else if we = '1' then
-	regs(adress) <= data;
+	elsif we = '1' then
+		regs(to_integer(adress)) <= data;
     
-else if we = '0' then
-	regs(adress) => data;
- else others => 'Z';
-end if
+	elsif we = '0' then
+
+        data <= regs(to_integer(adress));
+ 
+ 
+		end if;
+end if;
 end process;
 
-q0 <= regs(0)
-q1 <= regs(1)
-q2 <= regs(2)
-q3 <= regs(3)
+q0 <= regs(0);
+q1 <= regs(1);
+q2 <= regs(2);
+q3 <= regs(3);
 
-end ARCHITECTURE
+end ARCHITECTURE;
  
  
  
